@@ -1,0 +1,23 @@
+restaurantes = a.restaurant-card
+
+imagemRestaurante = img.restaurant-card__img-logo
+
+nome restaurante = span.restaurant-name
+
+rating = span.restaurant-rating
+
+tempo ~ entrega = div.restaurant-card__footer
+
+
+
+
+////////////////////////////////---------------------------------//////////////////////////////////////
+
+group de produtos 
+
+    restaurant-menu-group
+        a.dish-card
+            descricao: dish-card__description
+            texto: dish-card__details
+            preco : dish-card__price
+
