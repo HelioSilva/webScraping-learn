@@ -1,4 +1,3 @@
 # WebScraping
 
-- Repo initily created for webScraping, but over time emerged will use this project for analitic site Ifood to find 
-sale of ACAí.
+- The Repo initially created for web Scraping, but over time, interest arose in analyzing the Ifood website, to find the sale of ACAí.
