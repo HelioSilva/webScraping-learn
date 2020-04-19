@@ -21,3 +21,12 @@ group de produtos
             texto: dish-card__details
             preco : dish-card__price
 
+            
+
+
+prod.querySelector('span.dish-card__description').innerText
+
+prod.querySelector('span.dish-card__price--discount').innerText
+
+ prod.querySelector('span.dish-card__price--original').innerText
+

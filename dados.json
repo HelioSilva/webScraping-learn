@@ -7,6 +7,13 @@
     "uri": "https://www.ifood.com.br/delivery/maceio-al/acai-concept---jatiuca-jatiuca/56f70260-cecf-4d05-b9af-15afbf687cbb"
   },
   {
+    "nome": "Açai Concept - Bomba do Gonzaga",
+    "imagem": "https://static-images.ifood.com.br/image/upload/f_auto,t_thumbnail/logosgde/6187a5f1-5f87-4366-9135-c3318e3c9fc9/201909181518_DiAq_.jpeg",
+    "rating": "4.8",
+    "tempoEstimado": "0-10 min •",
+    "uri": "https://www.ifood.com.br/delivery/maceio-al/acai-concept---bomba-do-gonzaga-clima-bom/6187a5f1-5f87-4366-9135-c3318e3c9fc9"
+  },
+  {
     "nome": "Açaí Concept - Parte Alta",
     "imagem": "https://static-images.ifood.com.br/image/upload/f_auto,t_thumbnail/logosgde/201907311346_029a5604-a166-4604-8bb5-a8fecd305a62.png",
     "rating": "4.7",
@@ -117,12 +124,5 @@
     "rating": "4.4",
     "tempoEstimado": "0-10 min •",
     "uri": "https://www.ifood.com.br/delivery/maceio-al/dna-jatiuca-jatiuca/bacb3bda-1879-4914-802a-5571c9cedc62"
-  },
-  {
-    "nome": "China in Box - Ponta Verde",
-    "imagem": "https://static-images.ifood.com.br/image/upload/f_auto,t_thumbnail/logosgde/04757ebb-ebce-4842-98fc-ab8a9f0b4c62/202001031335_C6C4_i.png",
-    "rating": "4.0",
-    "tempoEstimado": "16-26 min •",
-    "uri": "https://www.ifood.com.br/delivery/maceio-al/china-in-box---ponta-verde-ponta-verde/04757ebb-ebce-4842-98fc-ab8a9f0b4c62"
   }
 ]

@@ -1,10 +1,12 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-const run = async function(){
-    const browser = await puppeteer.launch({headless:false});
+
+
+const run = async function(browser){
+
     const page = await browser.newPage();
-    page.setViewport({width:1024,height:768})
+    page.setViewport({width:1024,height:768});    
     await page.goto('https://www.ifood.com.br/delivery/maceio-al/cozinha/acai');
     //await page.screenshot({path:'exemple.png'}) 
     //await page.pdf({path:'exemple.pdf',format:'A4'});
@@ -28,35 +30,71 @@ const run = async function(){
          
     });
 
-    async function lerItens(dados){
+    fs.writeFileSync("./dados.json" , JSON.stringify( request1, null , 2 ) );
 
-        //await page.goto( dados[2].uri );
-
-        // dados.forEach(async item =>  {
-        //     const page2 = await browser.newPage() ;
-        //     await page2.goto(item.uri);
-        //     await browser.close();
-        //     // const requestItem = await page.evaluate(()=>{
-        //     //     const prods = document.querySelectorAll('a.dish-card');
-        //     //     Array.from(prods).map((prod)=>{
-        //     //         console.log(prod.querySelector('span.dish-card__price').innerText);
-        //     //     })
-        //     // })
-    
-        // });
-
-    }
-
-    //lerItens(request1);
-
-    await page.goto('https://www.globoesporte.com');
-    
-
-    //fs.writeFileSync("./dados.json" , JSON.stringify( dimensions, null , 2 ) );
-
-    //console.log(`Dimensões:`,dimensions );
-
-    await browser.close()
+    return request1 ;    
 }
 
-run();
+const leituraItem = async function lerItens(browser,dados){
+
+    let registro = [];
+
+    
+        for (let index = 0; index < dados.length; index++) {
+            const item = dados[index];
+
+            const page = await browser.newPage();
+            page.setViewport({width:1024,height:768});  
+            await page.goto(item.uri);
+            
+
+            const requestItem = await page.evaluate(()=>{
+                const prods = document.querySelectorAll('a.dish-card');
+                return Array.from(prods).map((prod)=>{
+
+                    let descricao = prod.querySelector('span.dish-card__description') != null ? 
+                                    prod.querySelector('span.dish-card__description').innerText : "";
+
+                    let vlorDesconto = prod.querySelector('span.dish-card__price--discount') != null ? 
+                                    prod.querySelector('span.dish-card__price--discount').innerText : "";
+
+                    let vlorOriginal = prod.querySelector('span.dish-card__price--original') != null ? 
+                                    prod.querySelector('span.dish-card__price--original').innerText : "";
+                    
+
+                    return{
+                        nomeProduto : descricao   ,  
+                        valorDesconto : vlorDesconto ,
+                        valorOriginal : vlorOriginal
+                    }
+                })
+            })
+
+            item["produtos"] = requestItem ;
+
+            registro.push(item);     
+           
+            await page.close()
+            
+        }
+
+    
+
+        fs.writeFileSync("./precos.json" , JSON.stringify( registro , null , 2 ) );
+        return  registro ;
+   }
+
+
+
+const main = async function(){     
+
+    const browser = await puppeteer.launch({headless:true});
+
+    const estabelecimentos = await run(browser);
+    const itens = await leituraItem(browser,estabelecimentos);
+
+    await browser.close()
+
+}
+
+main();    
