@@ -11,4 +11,4 @@ const resultadoBusca = Array.from(restaurantes).map((restaurante) => {
     uri: restaurante.href,
   };
 });
-return resultadoBusca;
+//return resultadoBusca;

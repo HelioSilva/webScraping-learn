@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
+const path = require("path");
 
 const webScrapingIFood = async function (browser) {
   const page = await browser.newPage();
@@ -8,11 +9,20 @@ const webScrapingIFood = async function (browser) {
   //await page.screenshot({path:'exemple.png'})
   //await page.pdf({path:'exemple.pdf',format:'A4'});
 
-  const request1 = await page.evaluate(() =>
-    require("./scriptsJSClient/scrapingRestaurant")
+  var filepath = path.join(
+    __dirname,
+    "./scriptsJSClient/scrapingRestaurant.js"
   );
+  await page.addScriptTag({ path: require.resolve(filepath) });
 
-  fs.writeFileSync("./dados.json", JSON.stringify(request1, null, 2));
+  const request1 = await page.evaluate(() => {
+    return resultadoBusca;
+  });
+
+  fs.writeFileSync(
+    "./src/responses/restaurants.json",
+    JSON.stringify(request1, null, 2)
+  );
 
   return request1;
 };
@@ -48,32 +58,45 @@ const leituraItem = async function lerItens(browser, dados) {
             ? prod.querySelector("span.dish-card__price--original").innerText
             : "";
 
-        return {
-          nomeProduto: descricao,
-          valorDesconto: vlorDesconto,
-          valorOriginal: vlorOriginal,
-        };
+        if (vlorDesconto != "") {
+          return {
+            nomeProduto: descricao,
+            valorDesconto: vlorDesconto,
+            valorOriginal: vlorOriginal,
+          };
+        }
       });
     });
 
-    item["produtos"] = requestItem;
+    if (requestItem.valorDesconto == "") {
+      registro.pop(item);
+    } else {
+      item["produtos"] = requestItem;
 
-    registro.push(item);
+      registro.push(item);
+    }
 
     await page.close();
   }
 
-  fs.writeFileSync("./precos.json", JSON.stringify(registro, null, 2));
+  fs.writeFileSync(
+    "./src/responses/prices.json",
+    JSON.stringify(registro, null, 2)
+  );
   return registro;
 };
 
 const main = async function () {
   const browser = await puppeteer.launch({ headless: true });
 
-  const estabelecimentos = await run(browser);
-  await leituraItem(browser, estabelecimentos);
+  const estabelecimentos = await webScrapingIFood(browser);
+  const res = await leituraItem(browser, estabelecimentos);
 
   await browser.close();
+
+  return res;
 };
 
-main();
+module.exports = {
+  main,
+};
